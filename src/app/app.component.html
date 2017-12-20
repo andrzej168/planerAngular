@@ -1,0 +1,90 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="text-right">
+  <button class="btn btn-success pull-right" href="" data-toggle="modal" data-target=".dialogAdd">Dodaj wydarzenie</button>
+</div>
+<div class="containerPlaner">
+  <h2>Poniedziałek: </h2>
+  <ul *ngFor="let event of eventsMonday">
+    <li>{{event.hour}}  -  {{event.description}}&nbsp;
+        <button type="button" class="btn btn-default" (click)="removeEvent(event)">Usuń</button>
+    </li>
+  </ul>
+  <hr>
+  <h2>Wtorek: </h2>
+    <ul *ngFor="let event of eventsTuesday">
+      <li>{{event.hour}}  -  {{event.description}}&nbsp;<button type="button" class="btn btn-default" (click)="removeEvent(event)">Usuń</button></li>
+    </ul>
+  <hr>
+  <h2>Środa: </h2>
+  <ul *ngFor="let event of eventsWednesday">
+    <li>{{event.hour}} -  {{event.description}}&nbsp;<button type="button" class="btn btn-default" (click)="removeEvent(event)">Usuń</button></li>
+  </ul>
+  <hr>
+  <h2>Czwartek: </h2>
+  <ul *ngFor="let event of eventsThursday">
+    <li>{{event.hour}}  -  {{event.description}}&nbsp;<button type="button" class="btn btn-default" (click)="removeEvent(event)">Usuń</button></li>
+  </ul>
+  <hr>
+  <h2>Piątek: </h2>
+  <ul *ngFor="let event of eventsFriday">
+    <li>{{event.hour}}  -  {{event.description}}&nbsp;<button type="button" class="btn btn-default" (click)="removeEvent(event)">Usuń</button></li>
+  </ul>
+  <hr>
+  <h2>Sobota: </h2>
+  <ul *ngFor="let event of eventsSaturday">
+    <li>{{event.hour}}  -  {{event.description}}&nbsp;<button type="button" class="btn btn-default" (click)="removeEvent(event)">Usuń</button></li>
+  </ul>
+  <hr>
+  <h2>Niedziela: </h2>
+  <ul *ngFor="let event of eventsSunday">
+    <li>{{event.hour}}  -  {{event.description}}&nbsp;<button type="button" class="btn btn-default" (click)="removeEvent(event)">Usuń</button></li>
+  </ul>
+</div>
+
+<!-- Modal dodawnia nowego wydarzenia -->
+<div class="modal fade dialogAdd" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title font-italic" id="exampleModalLabel">Dodaj nowe wydarzenie</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="inputNewEvent">
+          <form [formGroup]="complexForm" (ngSubmit)="submitForm(complexForm.value)">
+            <div class="form-group" [ngClass]="{'has-error':!complexForm.controls['day'].valid && complexForm.controls['day'].touched}">
+              <label>Dzień:</label>
+              <select class="form-control" type="text" name="day" required  [formControl]="complexForm.controls['day']">
+                <option [disabled]="true" [selected]="true">Wybierz dzień...</option>
+                <option value="Poniedziałek">Poniedziałek</option>
+                <option value="Wtorek">Wtorek</option>
+                <option value="Środa">Środa</option>
+                <option value="Czwartek">Czwartek</option>
+                <option value="Piątek">Piątek</option>
+                <option value="Sobota">Sobota</option>
+                <option value="Niedziela">Niedziela</option>
+              </select>
+              <div *ngIf="complexForm.controls['day'].hasError('required') && complexForm.controls['day'].touched" class="alert alert-danger">!! Musisz wybrać dzień !!</div>
+            </div>
+            <div class="form-group" [ngClass]="{'has-error':!complexForm.controls['hour'].valid && complexForm.controls['hour'].touched}">
+              <label>Godzina:</label>
+              <input class="form-control" type="time"  name="hour" [formControl]="complexForm.controls['hour'] ">
+              <div *ngIf="complexForm.controls['hour'].hasError('required') && complexForm.controls['hour'].touched" class="alert alert-danger">!! Musisz wybrać godzinę !!</div>
+            </div>
+            <div class="form-group" [ngClass]="{'has-error':!complexForm.controls['description'].valid && complexForm.controls['description'].touched}">
+              <label>Opis:</label>
+              <input class="form-control" type="text" placeholder="Opis zdarzenia..."  name="description" [formControl]="complexForm.controls['description']">
+              <div *ngIf="complexForm.controls['description'].hasError('required') && complexForm.controls['description'].touched" class="alert alert-danger">!! Muszisz opisac wydarzenie !!</div>
+            </div>
+            <button class="btn btn-success" type="submit" [disabled]="!complexForm.valid">Dodaj</button>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" #closeModal class="btn" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
