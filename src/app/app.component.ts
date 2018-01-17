@@ -34,6 +34,8 @@ export class AppComponent {
 
   addEvent(day: string, hour: string, description: string) {
     const event = new Event(day, hour, description);
+    console.log(event);
+    console.log(this.events);
     this.events.push(event);
     this.events = _.sortBy(this.events, ['day', 'hour']);
     this.divideEvents();
@@ -47,49 +49,19 @@ export class AppComponent {
   }
 
   submitForm(value: any) {
-    this.addEvent(value.day, value.hour, value.description);
+    this.addEvent(value.day.valueOf(), value.hour, value.description);
     this.complexForm.reset();
     this.closeModal.nativeElement.click();
   }
 
   divideEvents() {
-    this.eventsMonday = [];
-    this.eventsTuesday = [];
-    this.eventsWednesday = [];
-    this.eventsThursday = [];
-    this.eventsFriday = [];
-    this.eventsSaturday = [];
-    this.eventsSunday = [];
-    for (const event of this.events) {
-        if (event.day === 'Poniedziałek') {
-          this.eventsMonday.push(event);
-        }
-        if (event.day === 'Wtorek')  {
-          this.eventsTuesday.push(event);
-        }
-        if (event.day === 'Środa')  {
-          this.eventsWednesday.push(event);
-        }
-        if (event.day === 'Czwartek')  {
-          this.eventsThursday.push(event);
-        }
-        if (event.day === 'Piątek')  {
-          this.eventsFriday.push(event);
-        }
-        if (event.day === 'Sobota')  {
-          this.eventsSaturday.push(event);
-        }
-        if (event.day === 'Niedziela')  {
-          this.eventsSunday.push(event);
-        }
-    }
-    this.eventsMonday = _.sortBy(this.eventsMonday, ['day', 'hour']);
-    this.eventsTuesday = _.sortBy(this.eventsTuesday, ['day', 'hour']);
-    this.eventsWednesday = _.sortBy(this.eventsWednesday, ['day', 'hour']);
-    this.eventsThursday = _.sortBy(this.eventsThursday, ['day', 'hour']);
-    this.eventsFriday = _.sortBy(this.eventsFriday, ['day', 'hour']);
-    this.eventsSaturday = _.sortBy(this.eventsSaturday, ['day', 'hour']);
-    this.eventsSunday = _.sortBy(this.eventsSunday, ['day', 'hour']);
+    this.eventsMonday = _.filter(this.events, function (v) { return v.day === "Poniedziałek"; });
+    this.eventsTuesday = _.filter(this.events, function (v) { return v.day === "Wtorek"; });
+    this.eventsWednesday = _.filter(this.events, function (v) { return v.day === "Środa"; });
+    this.eventsThursday = _.filter(this.events, function (v) { return v.day === "Czwartek"; });
+    this.eventsFriday = _.filter(this.events, function (v) { return v.day === "Piątek"; });
+    this.eventsSaturday = _.filter(this.events, function (v) { return v.day === "Sobota"; });
+    this.eventsSunday = _.filter(this.events, function (v) { return v.day === "Niedziela"; });
   }
 
 }
